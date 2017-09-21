@@ -94,6 +94,14 @@ I (220) FATFS: ============= End of root contents
 
 ---
 
+#### Thanks
+
+The tool is inspired by [mkspiffs](https://github.com/loboris/ESP32_spiffs_example) tool created by *loboris* and introduced at [ESP32 Forum topic](https://esp32.com/viewtopic.php?f=18&t=1901).
+To manage FATFS objects I used *Kolban's* cpp_utils from [esp32-snippets](https://github.com/nkolban/esp32-snippets.git) project.
+Files for sample flash image have been gotten from another *Kolban's* project [ESP32_Explorer](https://github.com/nkolban/ESP32_Explorer.git) introduced at [ESP32 Forum topic](https://esp32.com/viewtopic.php?f=17&t=2977).
+
+---
+
 #### Donation
 If this project help you reduce time to develop, you can give me a cup of coffee :) 
 
