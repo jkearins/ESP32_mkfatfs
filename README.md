@@ -59,8 +59,8 @@ to **flash** previously prepared in *build* directory **FAT image** to ESP32
 
 #### Example functions
 
-* register FAT as VFS file system; if the fs is not mounted the system will halt
-* list files in root directory
+* registers FAT as VFS file system; if the fs is not mounted the system will halt
+* lists files in root directory
 
 
 **Example output:**

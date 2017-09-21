@@ -1,5 +1,5 @@
 # mkfatfs
-Tool to build and unpack [FATFS](https://github.com/jkearins/fatfs) images.
+Tool to build and unpack [FATFS](https://github.com/jkearins/ESP32_mkfatfs) images.
 
 
 ## Usage
@@ -67,6 +67,9 @@ MIT
 
 ## To do
 
+- [ ] Flag -u is not released yet
+- [ ] Flag -l is not released yet
+- [ ] Flag -i is not released yet
 - [ ] Add more debug output and print FATFS debug output
 - [ ] Error handling
 - [ ] Determine the image size automatically when opening a file
