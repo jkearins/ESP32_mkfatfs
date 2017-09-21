@@ -1,0 +1,28 @@
+menu "ESP32 FATFS Configuration"
+
+config FATFS_BASE_ADDR
+    hex "FATFS Base address"
+    range 100000 1FFE000
+    default 110000
+    help
+	Starting address of the FATFS area in ESP32 Flash
+
+config FATFS_SIZE
+    int "FATFS Size in bytes"
+    range 262144 2097152
+    default 1048576
+
+config FATFS_LOG_BLOCK_SIZE
+    int "FATFS Logical block size"
+    range 4096 65536
+    default 4096
+
+config FATFS_LOG_PAGE_SIZE
+    int "FATFS Logical page size"
+    range 256 2048
+    default 256
+    help
+	Set it to the phisycal page size of the used SPI Flash chip.
+
+
+endmenu
