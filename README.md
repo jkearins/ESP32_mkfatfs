@@ -8,8 +8,6 @@
 * flash **FAT** image to ESP32
 * example of **FAT** functions
 
-*When using file related functions which has filename argument, prefix* **/spiffs/**  *has to be added to the file name.*
-
 ---
 
 #### How to build
