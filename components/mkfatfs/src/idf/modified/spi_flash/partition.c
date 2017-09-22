@@ -27,8 +27,10 @@ esp_err_t esp_partition_write(const esp_partition_t* partition,
 }
 
 esp_err_t esp_partition_erase_range(const esp_partition_t* partition,
-                                    size_t start_addr, size_t size)
+                                    uint32_t start_addr, uint32_t size) //MVA size_t -> uint32_t
 {
     return ESP_OK;
 }
+
+
 

@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Victor Mizikov. All rights reserved.
 //
 #define TCLAP_SETBASE_ZERO 1
-#define VERSION "0.3.6"
+#define APP_VERSION "0.3.6"
 
 #include <iostream>
 #include <vector>
@@ -549,7 +549,7 @@ int actionVisualize() {
 }
 
 void processArgs(int argc, const char** argv) {
-    TCLAP::CmdLine cmd("", ' ', VERSION);
+    TCLAP::CmdLine cmd("", ' ', APP_VERSION);
     TCLAP::ValueArg<std::string> packArg( "c", "create", "create spiffs image from a directory", true, "", "pack_dir");
     TCLAP::ValueArg<std::string> unpackArg( "u", "unpack", "unpack spiffs image to a directory", true, "", "dest_dir");
     TCLAP::SwitchArg listArg( "l", "list", "list files in spiffs image", false);

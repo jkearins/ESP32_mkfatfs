@@ -45,9 +45,10 @@ esp_err_t FatPartition::erase_range(size_t start_address, size_t size)
       memset(&g_flashmem[0] + start_address, 0xff, size);
     }
     if (result == ESP_OK) {
-        ESP_LOGV(TAG, "erase_range - start_address=0x%08x, size=0x%08x, result=0x%08x", start_address, size, result);
+	//The z portion is a length specifier which says the argument will be size_t in length.
+        ESP_LOGV(TAG, "erase_range - start_address=0x%08zx, size=0x%08zx, result=0x%08x", start_address, size, result);
     } else {
-        ESP_LOGE(TAG, "erase_range - start_address=0x%08x, size=0x%08x, result=0x%08x", start_address, size, result);
+        ESP_LOGE(TAG, "erase_range - start_address=0x%08zx, size=0x%08zx, result=0x%08x", start_address, size, result);
     }
     return result;
 }

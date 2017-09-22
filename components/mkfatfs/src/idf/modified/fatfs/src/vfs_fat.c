@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <idf_dirent.h> //MVA <dirent.h>
+#include <time.h> //MVA added
 #include <sys/errno.h>
 #include <sys/fcntl.h>
 #include <sys/lock.h>
@@ -67,6 +68,93 @@ static int vfs_fat_rmdir(void* ctx, const char* name);
 static vfs_fat_ctx_t* s_fat_ctxs[_VOLUMES] = { NULL, NULL };
 //backwards-compatibility with esp_vfs_fat_unregister()
 static vfs_fat_ctx_t* s_fat_ctx = NULL;
+
+//MVA VVV
+
+#if defined(__APPLE__)
+# undef strlcat
+# undef strlncpy
+# undef strlcpy
+#endif  /* defined(__APPLE__) */
+
+
+#ifndef strnlen
+/* strnlen() is a POSIX.2008 addition. Can't rely on it being available so
+ * define it ourselves.
+ */
+size_t
+strnlen(const char *s, size_t maxlen)
+{
+  const char *p;
+
+  p = memchr(s, '\0', maxlen);
+  if (p == NULL)
+    return maxlen;
+
+  return p - s;
+}
+
+size_t
+strlncat(char *dst, size_t len, const char *src, size_t n)
+{
+  size_t slen;
+  size_t dlen;
+  size_t rlen;
+  size_t ncpy;
+
+  slen = strnlen(src, n);
+  dlen = strnlen(dst, len);
+
+  if (dlen < len) {
+    rlen = len - dlen;
+    ncpy = slen < rlen ? slen : (rlen - 1);
+    memcpy(dst + dlen, src, ncpy);
+    dst[dlen + ncpy] = '\0';
+  }
+
+  assert(len > slen + dlen);
+  return slen + dlen;
+}
+
+size_t
+strlcat(char *dst, const char *src, size_t len)
+{
+  return strlncat(dst, len, src, (size_t) -1);
+}
+
+size_t
+strlncpy(char *dst, size_t len, const char *src, size_t n)
+{
+  size_t slen;
+  size_t ncpy;
+
+  slen = strnlen(src, n);
+
+  if (len > 0) {
+    ncpy = slen < len ? slen : (len - 1);
+    memcpy(dst, src, ncpy);
+    dst[ncpy] = '\0';
+  }
+
+  assert(len > slen);
+  return slen;
+}
+
+size_t
+strlcpy(char *dst, const char *src, size_t len)
+{
+  return strlncpy(dst, len, src, (size_t) -1);
+}
+
+#endif //strnlen
+
+//MVA^^^
+
+
+
+
+
+
 
 static size_t find_context_index_by_path(const char* base_path)
 {
@@ -294,7 +382,7 @@ static ssize_t vfs_fat_write(void* ctx, int fd, const void * data, size_t size)
 {
     vfs_fat_ctx_t* fat_ctx = (vfs_fat_ctx_t*) ctx;
     FIL* file = &fat_ctx->files[fd];
-    unsigned written = 0;
+    UINT written = 0; //MVA unsigned -> UINT
     FRESULT res = f_write(file, data, size, &written);
     if (res != FR_OK) {
         ESP_LOGD(TAG, "%s: fresult=%d", __func__, res);
@@ -310,7 +398,7 @@ static ssize_t vfs_fat_read(void* ctx, int fd, void * dst, size_t size)
 {
     vfs_fat_ctx_t* fat_ctx = (vfs_fat_ctx_t*) ctx;
     FIL* file = &fat_ctx->files[fd];
-    unsigned read = 0;
+    UINT read = 0; //MVA unsigned -> UINT
     FRESULT res = f_read(file, dst, size, &read);
     if (res != FR_OK) {
         ESP_LOGD(TAG, "%s: fresult=%d", __func__, res);
