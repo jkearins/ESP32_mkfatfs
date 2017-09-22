@@ -132,43 +132,53 @@ esp_err_t emulate_esp_vfs_fat_spiflash_unmount(const char *base_path, wl_handle_
 // vfs.c
 //-------------------------------
 
-ssize_t emulate_esp_vfs_write(struct _reent *r, int fd, const void * data, size_t size) {
+ssize_t emulate_esp_vfs_write(int fd, const void * data, size_t size) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_write(r, fd, data, size);
 }
 
-off_t emulate_esp_vfs_lseek(struct _reent *r, int fd, off_t size, int mode) {
+off_t emulate_esp_vfs_lseek(int fd, off_t size, int mode) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_lseek(r, fd, size, mode);
 }
 
-ssize_t emulate_esp_vfs_read(struct _reent *r, int fd, void * dst, size_t size) {
+ssize_t emulate_esp_vfs_read(int fd, void * dst, size_t size) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_read(r, fd, dst, size);
 }
 
-int emulate_esp_vfs_open(struct _reent *r, const char * path, int flags, int mode) {
+int emulate_esp_vfs_open(const char * path, int flags, int mode) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_open(r, path, flags, mode);
 }
 
-int emulate_esp_vfs_close(struct _reent *r, int fd) {
+int emulate_esp_vfs_close(int fd) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_close(r, fd);
 }
 
-int emulate_esp_vfs_fstat(struct _reent *r, int fd, struct stat * st) {
+int emulate_esp_vfs_fstat(int fd, struct stat * st) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_fstat(r, fd, st);
 }
 
-int emulate_esp_vfs_stat(struct _reent *r, const char * path, struct stat * st) {
+int emulate_esp_vfs_stat(const char * path, struct stat * st) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_stat(r, path, st);
 }
 
-int emulate_esp_vfs_link(struct _reent *r, const char* n1, const char* n2) {
+int emulate_esp_vfs_link(const char* n1, const char* n2) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_link(r, n1, n2);
 }
 
-int emulate_esp_vfs_unlink(struct _reent *r, const char *path) {
+int emulate_esp_vfs_unlink(const char *path) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_unlink(r, path);
 }
 
-int emulate_esp_vfs_rename(struct _reent *r, const char *src, const char *dst) {
+int emulate_esp_vfs_rename(const char *src, const char *dst) {
+  struct _idf_reent *r = __idf_getreent();
   return esp_vfs_rename(r, src, dst);
 }
 

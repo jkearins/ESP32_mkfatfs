@@ -87,9 +87,8 @@ int addFile(char* name, const char* path) {
     std::string nameInFat = BASE_PATH;
     nameInFat += name;
 
-    struct _reent *r = __getreent();
     const int flags = O_CREAT | O_TRUNC | O_RDWR;
-    int fd = emulate_esp_vfs_open(r, nameInFat.c_str(), flags, 0);
+    int fd = emulate_esp_vfs_open(nameInFat.c_str(), flags, 0);
     if (fd < 0) {
         std::cerr << "error: failed to open \"" << nameInFat << "\" for writing" << std::endl;
         return 0; //0 does not stop copying files
@@ -111,23 +110,23 @@ int addFile(char* name, const char* path) {
         if (1 != fread(&data_byte, 1, 1, src)) {
             std::cerr << "fread error!" << std::endl;
             fclose(src);
-            emulate_esp_vfs_close(r, fd);
+            emulate_esp_vfs_close(fd);
             return 1;
         }
-        ssize_t res = emulate_esp_vfs_write(r, fd, &data_byte, 1);
+        ssize_t res = emulate_esp_vfs_write(fd, &data_byte, 1);
         if (res < 0) {
-            std::cerr << "esp_vfs_write() error " << r->_errno << std::endl;
+            std::cerr << "esp_vfs_write() error" << std::endl;
             if (g_debugLevel > 0) {
                 std::cout << "data left: " << left << std::endl;
             }
             fclose(src);
-            emulate_esp_vfs_close(r, fd);
+            emulate_esp_vfs_close(fd);
             return 1;
         }
         left -= 1;
     }
 
-    emulate_esp_vfs_close(r, fd);
+    emulate_esp_vfs_close(fd);
 
     // Get the system time to file timestamps
 //    meta.atime = time(NULL);

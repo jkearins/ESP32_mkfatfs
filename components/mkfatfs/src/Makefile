@@ -53,6 +53,7 @@ else
 		CXX=g++
 		TARGET_CFLAGS   = -std=gnu99 -Os -Wall -Itclap -Ifatfs -I. -D$(TARGET_OS) -DVERSION=\"$(VERSION)\" -D__NO_INLINE__  $(IDF_INCLUDES)
 		TARGET_CXXFLAGS = -std=gnu++11 -Os -Wall -Itclap -Ifatfs -I. -D$(TARGET_OS) -DVERSION=\"$(VERSION)\" -D__NO_INLINE__  $(IDF_INCLUDES)
+		TARGET_LDFLAGS  =
 	endif
 	ifeq ($(UNAME_S),Darwin)
 		TARGET_OS := OSX
@@ -77,6 +78,7 @@ OBJ             := main.o \
 		   $(IDF_MODIFIED_DIR)/fatfs/src/vfs_fat.o \
 		   $(IDF_MODIFIED_DIR)/freertos/include/freertos/semphr.o \
 		   $(IDF_MODIFIED_DIR)/newlib/include/sys/lock.o \
+		   $(IDF_MODIFIED_DIR)/newlib/include/sys/idf_reent.o \
 		   $(IDF_MODIFIED_DIR)/spi_flash/partition.o \
 		   $(IDF_MODIFIED_DIR)/vfs/vfs.o \
 		   $(IDF_MODIFIED_DIR)/wear_levelling/wear_levelling.o \
@@ -104,6 +106,7 @@ $(TARGET):
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/fatfs/src/vfs_fat.c -o $(IDF_MODIFIED_DIR)/fatfs/src/vfs_fat.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/freertos/include/freertos/semphr.c -o $(IDF_MODIFIED_DIR)/freertos/include/freertos/semphr.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/newlib/include/sys/lock.c -o $(IDF_MODIFIED_DIR)/newlib/include/sys/lock.o
+	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/newlib/include/sys/idf_reent.c -o $(IDF_MODIFIED_DIR)/newlib/include/sys/idf_reent.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/spi_flash/partition.c -o $(IDF_MODIFIED_DIR)/spi_flash/partition.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/vfs/vfs.c -o $(IDF_MODIFIED_DIR)/vfs/vfs.o
 	$(CXX) $(TARGET_CXXFLAGS) -c $(IDF_MODIFIED_DIR)/wear_levelling/wear_levelling.cpp -o $(IDF_MODIFIED_DIR)/wear_levelling/wear_levelling.o

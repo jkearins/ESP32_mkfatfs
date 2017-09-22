@@ -219,7 +219,7 @@ static const vfs_entry_t* get_vfs_for_path(const char* path)
         ret = (*pvfs->vfs.func)(__VA_ARGS__);\
     }
 
-int esp_vfs_open(struct _reent *r, const char * path, int flags, int mode)
+int esp_vfs_open(struct _idf_reent *r, const char * path, int flags, int mode)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(path);
     if (vfs == NULL) {
@@ -237,7 +237,7 @@ int esp_vfs_open(struct _reent *r, const char * path, int flags, int mode)
     return ret - vfs->vfs.fd_offset + (vfs->offset << VFS_INDEX_S);
 }
 
-ssize_t esp_vfs_write(struct _reent *r, int fd, const void * data, size_t size)
+ssize_t esp_vfs_write(struct _idf_reent *r, int fd, const void * data, size_t size)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(fd);
     if (vfs == NULL) {
@@ -250,7 +250,7 @@ ssize_t esp_vfs_write(struct _reent *r, int fd, const void * data, size_t size)
     return ret;
 }
 
-off_t esp_vfs_lseek(struct _reent *r, int fd, off_t size, int mode)
+off_t esp_vfs_lseek(struct _idf_reent *r, int fd, off_t size, int mode)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(fd);
     if (vfs == NULL) {
@@ -263,7 +263,7 @@ off_t esp_vfs_lseek(struct _reent *r, int fd, off_t size, int mode)
     return ret;
 }
 
-ssize_t esp_vfs_read(struct _reent *r, int fd, void * dst, size_t size)
+ssize_t esp_vfs_read(struct _idf_reent *r, int fd, void * dst, size_t size)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(fd);
     if (vfs == NULL) {
@@ -277,7 +277,7 @@ ssize_t esp_vfs_read(struct _reent *r, int fd, void * dst, size_t size)
 }
 
 
-int esp_vfs_close(struct _reent *r, int fd)
+int esp_vfs_close(struct _idf_reent *r, int fd)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(fd);
     if (vfs == NULL) {
@@ -290,7 +290,7 @@ int esp_vfs_close(struct _reent *r, int fd)
     return ret;
 }
 
-int esp_vfs_fstat(struct _reent *r, int fd, struct stat * st)
+int esp_vfs_fstat(struct _idf_reent *r, int fd, struct stat * st)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(fd);
     if (vfs == NULL) {
@@ -303,7 +303,7 @@ int esp_vfs_fstat(struct _reent *r, int fd, struct stat * st)
     return ret;
 }
 
-int esp_vfs_stat(struct _reent *r, const char * path, struct stat * st)
+int esp_vfs_stat(struct _idf_reent *r, const char * path, struct stat * st)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(path);
     if (vfs == NULL) {
@@ -316,7 +316,7 @@ int esp_vfs_stat(struct _reent *r, const char * path, struct stat * st)
     return ret;
 }
 
-int esp_vfs_link(struct _reent *r, const char* n1, const char* n2)
+int esp_vfs_link(struct _idf_reent *r, const char* n1, const char* n2)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(n1);
     if (vfs == NULL) {
@@ -335,7 +335,7 @@ int esp_vfs_link(struct _reent *r, const char* n1, const char* n2)
     return ret;
 }
 
-int esp_vfs_unlink(struct _reent *r, const char *path)
+int esp_vfs_unlink(struct _idf_reent *r, const char *path)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(path);
     if (vfs == NULL) {
@@ -348,7 +348,7 @@ int esp_vfs_unlink(struct _reent *r, const char *path)
     return ret;
 }
 
-int esp_vfs_rename(struct _reent *r, const char *src, const char *dst)
+int esp_vfs_rename(struct _idf_reent *r, const char *src, const char *dst)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(src);
     if (vfs == NULL) {
@@ -373,7 +373,7 @@ int esp_vfs_rename(struct _reent *r, const char *src, const char *dst)
 DIR* vfs_opendir(const char* name)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(name);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         __errno_r(r) = ENOENT;
         return NULL;
@@ -390,7 +390,7 @@ DIR* vfs_opendir(const char* name)
 struct dirent* vfs_readdir(DIR* pdir)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(pdir->dd_vfs_idx);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
        __errno_r(r) = EBADF;
         return NULL;
@@ -403,7 +403,7 @@ struct dirent* vfs_readdir(DIR* pdir)
 int vfs_readdir_r(DIR* pdir, struct dirent* entry, struct dirent** out_dirent)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(pdir->dd_vfs_idx);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         errno = EBADF;
         return -1;
@@ -416,7 +416,7 @@ int vfs_readdir_r(DIR* pdir, struct dirent* entry, struct dirent** out_dirent)
 long vfs_telldir(DIR* pdir)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(pdir->dd_vfs_idx);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         errno = EBADF;
         return -1;
@@ -429,7 +429,7 @@ long vfs_telldir(DIR* pdir)
 void vfs_seekdir(DIR* pdir, long loc)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(pdir->dd_vfs_idx);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         errno = EBADF;
         return;
@@ -445,7 +445,7 @@ void vfs_rewinddir(DIR* pdir)
 int vfs_closedir(DIR* pdir)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(pdir->dd_vfs_idx);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         errno = EBADF;
         return -1;
@@ -458,7 +458,7 @@ int vfs_closedir(DIR* pdir)
 int vfs_mkdir(const char* name, mode_t mode)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(name);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         __errno_r(r) = ENOENT;
         return -1;
@@ -472,7 +472,7 @@ int vfs_mkdir(const char* name, mode_t mode)
 int vfs_rmdir(const char* name)
 {
     const vfs_entry_t* vfs = get_vfs_for_path(name);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         __errno_r(r) = ENOENT;
         return -1;
@@ -486,7 +486,7 @@ int vfs_rmdir(const char* name)
 int vfs_fcntl(int fd, int cmd, ...)
 {
     const vfs_entry_t* vfs = get_vfs_for_fd(fd);
-    struct _reent* r = __getreent();
+    struct _idf_reent* r = __idf_getreent();
     if (vfs == NULL) {
         __errno_r(r) = EBADF;
         return -1;

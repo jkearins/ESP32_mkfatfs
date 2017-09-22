@@ -20,9 +20,9 @@
 #include <stdarg.h>
 #include "esp_err.h"
 #include <sys/types.h>
-#include <sys/reent.h>
+#include <sys/idf_reent.h> //MVA was <sys/reent.h>
 #include <sys/stat.h>
-#include <idf_dirent.h> //MVA <dirent.h>
+#include <idf_dirent.h> //MVA was <dirent.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -184,16 +184,20 @@ esp_err_t esp_vfs_unregister(const char* base_path);
  * newlib when it needs to use any of the syscalls.
  */
 /**@{*/
-ssize_t esp_vfs_write(struct _reent *r, int fd, const void * data, size_t size);
-off_t esp_vfs_lseek(struct _reent *r, int fd, off_t size, int mode);
-ssize_t esp_vfs_read(struct _reent *r, int fd, void * dst, size_t size);
-int esp_vfs_open(struct _reent *r, const char * path, int flags, int mode);
-int esp_vfs_close(struct _reent *r, int fd);
-int esp_vfs_fstat(struct _reent *r, int fd, struct stat * st);
-int esp_vfs_stat(struct _reent *r, const char * path, struct stat * st);
-int esp_vfs_link(struct _reent *r, const char* n1, const char* n2);
-int esp_vfs_unlink(struct _reent *r, const char *path);
-int esp_vfs_rename(struct _reent *r, const char *src, const char *dst);
+
+ssize_t esp_vfs_write(struct _idf_reent *r, int fd, const void * data, size_t size);
+off_t esp_vfs_lseek(struct _idf_reent *r, int fd, off_t size, int mode);
+ssize_t esp_vfs_read(struct _idf_reent *r, int fd, void * dst, size_t size);
+int esp_vfs_open(struct _idf_reent *r, const char * path, int flags, int mode);
+int esp_vfs_close(struct _idf_reent *r, int fd);
+int esp_vfs_fstat(struct _idf_reent *r, int fd, struct stat * st);
+int esp_vfs_stat(struct _idf_reent *r, const char * path, struct stat * st);
+int esp_vfs_link(struct _idf_reent *r, const char* n1, const char* n2);
+int esp_vfs_unlink(struct _idf_reent *r, const char *path);
+int esp_vfs_rename(struct _idf_reent *r, const char *src, const char *dst);
+
+
+
 /**@}*/
 
 
