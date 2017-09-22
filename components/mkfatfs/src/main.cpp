@@ -238,14 +238,6 @@ bool fatfsMount(){
   mountConfig.format_if_mount_failed = true;
   result = (ESP_OK == emulate_esp_vfs_fat_spiflash_mount(BASE_PATH, &mountConfig, &s_wl_handle, &s_fs, s_imageSize));
 
-  if (result) {
-    if (g_debugLevel > 0) {
-      std::cout << "Mounted successfully" << std::endl;
-    }
-  } else {
-    std::cerr << "Mount failed" << std::endl;
-  }
-
   return result;
 }
 
@@ -441,7 +433,17 @@ int actionPack() {
         return 1;
     }
 
-    fatfsMount();
+    if (fatfsMount()) {
+      if (g_debugLevel > 0) {
+        std::cout << "Mounted successfully" << std::endl;
+      }
+    } else {
+      std::cerr << "Mount failed" << std::endl;
+      return 1;
+    }  
+
+
+
     //spiffsFormat();
 
 	// WHITECAT BEGIN

@@ -6,6 +6,7 @@ IDF_INCLUDES = -I $(BUILD_DIR_BASE)/include
 IDF_MODIFIED_DIR = idf/modified
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/driver/include
+IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/fatfs/src
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/freertos/include
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/log/include
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/newlib/include

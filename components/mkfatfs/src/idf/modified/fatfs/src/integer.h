@@ -27,8 +27,13 @@ typedef unsigned short	WORD;
 typedef unsigned short	WCHAR;
 
 /* These types MUST be 32-bit */
-typedef long			LONG;
-typedef unsigned long	DWORD;
+//MVA VVV
+//typedef long		LONG;
+//typedef unsigned long	DWORD;
+typedef int		LONG;
+typedef unsigned int	DWORD;
+//MVA ^^^
+
 
 /* This type MUST be 64-bit (Remove this for C89 compatibility) */
 typedef unsigned long long QWORD;
