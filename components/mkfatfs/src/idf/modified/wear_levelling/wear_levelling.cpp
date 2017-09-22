@@ -235,7 +235,7 @@ size_t wl_size(wl_handle_t handle)
     size_t result = s_instances[handle].instance->chip_size();
     _lock_release(&s_instances[handle].lock);
 
-    ESP_LOGI(TAG, "%s: result=%d", __func__, result);
+    //ESP_LOGI(TAG, "%s: result=%zu", __func__, result); //MVA The z portion is a length specifier which says the argument will be size_t in length.
     return result;
 }
 
