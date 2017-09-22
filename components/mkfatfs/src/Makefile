@@ -23,8 +23,13 @@ IDF_INCLUDES += -I $(IDF_ORIG_DIR)/sdmmc/include
 IDF_INCLUDES += -I $(IDF_ORIG_DIR)/spi_flash/include
 IDF_INCLUDES += -I $(IDF_ORIG_DIR)/wear_levelling/private_include
 
-
+ifdef OS
 ifeq ($(OS),Windows_NT)
+  OS_IS_WIN = 1
+endif
+endif
+
+ifdef OS_IS_WIN
 	TARGET_OS := WINDOWS
 	DIST_SUFFIX := windows
 	ARCHIVE_CMD := 7z a
