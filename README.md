@@ -32,8 +32,8 @@ Make and flash the example.
 
 FAT **image** can be prepared on host and flashed to ESP32.
 
-Tested and works under **Windows**.
-It is not tested under **Linux** and **Mac OS** yet but should work.
+Tested and works under **Windows** and **Linux**.
+It is not tested under **Mac OS** yet but should work.
 
 Copy the files to be included on FAT into **components/fatfs_image/image/** directory. Subdirectories can also be added.
 
