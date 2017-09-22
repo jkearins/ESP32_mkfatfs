@@ -79,6 +79,7 @@ OBJ             := main.o \
 		   $(IDF_MODIFIED_DIR)/freertos/include/freertos/semphr.o \
 		   $(IDF_MODIFIED_DIR)/newlib/include/sys/lock.o \
 		   $(IDF_MODIFIED_DIR)/newlib/include/sys/idf_reent.o \
+		   $(IDF_MODIFIED_DIR)/newlib/include/sys/errno.o \
 		   $(IDF_MODIFIED_DIR)/spi_flash/partition.o \
 		   $(IDF_MODIFIED_DIR)/vfs/vfs.o \
 		   $(IDF_MODIFIED_DIR)/wear_levelling/wear_levelling.o \
@@ -107,6 +108,7 @@ $(TARGET):
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/freertos/include/freertos/semphr.c -o $(IDF_MODIFIED_DIR)/freertos/include/freertos/semphr.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/newlib/include/sys/lock.c -o $(IDF_MODIFIED_DIR)/newlib/include/sys/lock.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/newlib/include/sys/idf_reent.c -o $(IDF_MODIFIED_DIR)/newlib/include/sys/idf_reent.o
+	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/newlib/include/sys/errno.c -o $(IDF_MODIFIED_DIR)/newlib/include/sys/errno.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/spi_flash/partition.c -o $(IDF_MODIFIED_DIR)/spi_flash/partition.o
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_MODIFIED_DIR)/vfs/vfs.c -o $(IDF_MODIFIED_DIR)/vfs/vfs.o
 	$(CXX) $(TARGET_CXXFLAGS) -c $(IDF_MODIFIED_DIR)/wear_levelling/wear_levelling.cpp -o $(IDF_MODIFIED_DIR)/wear_levelling/wear_levelling.o

@@ -10,13 +10,15 @@ extern "C" {
 
 #include <sys/idf_reent.h> //MVA was <sys/reent.h>
 
+//MVA VVV
+/*
 #ifndef _REENT_ONLY
 #define errno (*__errno())
 extern int *__errno _PARAMS ((void));
 #endif
 
-/* Please don't use these variables directly.
-   Use strerror instead. */
+
+// Please don't use these variables directly. Use strerror instead.
 extern __IMPORT _CONST char * _CONST _sys_errlist[];
 extern __IMPORT int _sys_nerr;
 #ifdef __CYGWIN__
@@ -25,6 +27,12 @@ extern __IMPORT int sys_nerr;
 extern __IMPORT char *program_invocation_name;
 extern __IMPORT char *program_invocation_short_name;
 #endif
+*/
+
+extern int errno;
+//MVA ^^^
+
+
 
 #define __errno_r(ptr) ((ptr)->_errno)
 
