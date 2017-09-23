@@ -66,8 +66,8 @@ else
 		DIST_SUFFIX := osx
 		CC=clang
 		CXX=clang++
-		TARGET_CFLAGS   = -std=gnu99 -Os -Wall -Itclap -Ifatfs -I. -D$(TARGET_OS) -DVERSION=\"$(VERSION)\" -D__NO_INLINE__ -mmacosx-version-min=10.7 -arch x86_64
-		TARGET_CXXFLAGS = -std=gnu++11 -Os -Wall -Itclap -Ifatfs -I. -D$(TARGET_OS) -DVERSION=\"$(VERSION)\" -D__NO_INLINE__ -mmacosx-version-min=10.7 -arch x86_64 -stdlib=libc++
+		TARGET_CFLAGS   = -std=gnu99 -Os -Wall -Itclap -Ifatfs -I. -D$(TARGET_OS) -DVERSION=\"$(VERSION)\" -D__NO_INLINE__ -mmacosx-version-min=10.7 -arch x86_64 $(IDF_INCLUDES)
+		TARGET_CXXFLAGS = -std=gnu++11 -Os -Wall -Itclap -Ifatfs -I. -D$(TARGET_OS) -DVERSION=\"$(VERSION)\" -D__NO_INLINE__ -mmacosx-version-min=10.7 -arch x86_64 -stdlib=libc++ $(IDF_INCLUDES)
 		TARGET_LDFLAGS  = -arch x86_64 -stdlib=libc++
 	endif
 	ARCHIVE_CMD := tar czf
