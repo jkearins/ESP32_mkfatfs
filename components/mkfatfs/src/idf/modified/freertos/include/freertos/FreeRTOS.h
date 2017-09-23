@@ -7,6 +7,7 @@
 extern "C" {
 #endif
 
+//MVA leave only necessary definitions
 
 #define portBASE_TYPE	int
 typedef portBASE_TYPE			BaseType_t;

@@ -24,6 +24,8 @@
 #include <sys/stat.h>
 #include <idf_dirent.h> //MVA was <dirent.h>
 
+//MVA _reent -> _idf_reent
+
 #ifdef __cplusplus
 extern "C" {
 #endif

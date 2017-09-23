@@ -1,5 +1,8 @@
 #pragma once
 
+
+//MVA emulate lock system
+
 #ifdef __cplusplus
 extern "C" {
 #endif

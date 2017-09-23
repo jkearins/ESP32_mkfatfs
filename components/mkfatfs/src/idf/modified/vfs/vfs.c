@@ -23,6 +23,8 @@
 //#include "esp_log.h"
 //static const char *TAG = "vfs"; //MVA
 
+//MVA _reent -> _idf_reent
+
 /*
  * File descriptors visible by the applications are composed of two parts.
  * Lower CONFIG_MAX_FD_BITS bits are used for the actual file descriptor.
@@ -367,7 +369,7 @@ int esp_vfs_rename(struct _idf_reent *r, const char *src, const char *dst)
     return ret;
 }
 
-//MVA add prefix vfs_
+//MVA add prefix vfs_ to avoid conflict with host file system
 //VVV
 
 DIR* vfs_opendir(const char* name)

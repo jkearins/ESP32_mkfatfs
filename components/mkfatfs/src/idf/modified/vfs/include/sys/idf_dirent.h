@@ -45,7 +45,7 @@ struct dirent {
     char d_name[256];   /*!< zero-terminated file name */
 };
 
-//MVA add prefix vfs_
+//MVA add prefix vfs_ to avoid conflict with host file system
 //VVV
 DIR* vfs_opendir(const char* name);
 struct dirent* vfs_readdir(DIR* pdir);

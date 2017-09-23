@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+//MVA emulate semaphore functions
+
 SemaphoreHandle_t xSemaphoreCreateMutex() {return (SemaphoreHandle_t)1;}
 void vSemaphoreDelete( SemaphoreHandle_t xSemaphore ) {}
 BaseType_t xSemaphoreTake( SemaphoreHandle_t xSemaphore, TickType_t xBlockTime ) {return pdTRUE;}

@@ -4,6 +4,7 @@
 extern "C" {
 #endif
 
+//MVA emulate errno
 
 int errno;
 

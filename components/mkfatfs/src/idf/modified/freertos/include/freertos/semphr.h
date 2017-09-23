@@ -7,6 +7,8 @@
 extern "C" {
 #endif
 
+//MVA leave only necessary definitions
+
 typedef QueueHandle_t SemaphoreHandle_t;
 
 SemaphoreHandle_t xSemaphoreCreateMutex();

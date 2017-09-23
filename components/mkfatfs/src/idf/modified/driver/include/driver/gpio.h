@@ -20,6 +20,7 @@
 extern "C" {
 #endif
 
+//MVA leave only necessary definitions
 
 typedef enum {
     GPIO_NUM_0 = 0,     /*!< GPIO0, input and output */

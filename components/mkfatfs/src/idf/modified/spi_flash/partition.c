@@ -14,6 +14,8 @@
 
 #include "esp_partition.h"
 
+//MVA only satisfy declarations in esp_partition.h
+
 esp_err_t esp_partition_read(const esp_partition_t* partition,
         size_t src_offset, void* dst, size_t size)
 {

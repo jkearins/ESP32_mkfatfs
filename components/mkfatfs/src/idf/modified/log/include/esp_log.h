@@ -1,3 +1,6 @@
+#pragma once
+
+//MVA emulate log system
 
 extern int g_debugLevel;
 

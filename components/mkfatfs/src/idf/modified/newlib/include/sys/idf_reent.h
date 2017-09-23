@@ -1,6 +1,8 @@
 #pragma once
 
 
+//MVA emulate reent
+
 struct _idf_reent {
   int _errno;
 };

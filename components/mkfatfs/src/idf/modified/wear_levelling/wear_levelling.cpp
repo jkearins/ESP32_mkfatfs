@@ -22,7 +22,7 @@
 #include "WL_Ext_Safe.h"
 #include "SPI_Flash.h"
 #include "wear_levelling.h"
-#include "FatPartition.h"
+#include "FatPartition.h" //MVA Partition.h -> FatPartition.h
 
 #ifndef MAX_WL_HANDLES
 #define MAX_WL_HANDLES 8
@@ -65,7 +65,7 @@ esp_err_t wl_mount(const esp_partition_t *partition, wl_handle_t *out_handle)
     void *wl_flash_ptr = NULL;
     WL_Flash *wl_flash = NULL;
     void *part_ptr = NULL;
-    FatPartition *part = NULL; //Partition -> FatPartition
+    FatPartition *part = NULL; //MVA Partition -> FatPartition
 
     _lock_acquire(&s_instances_lock);
     esp_err_t result = ESP_OK;

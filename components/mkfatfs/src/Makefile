@@ -12,7 +12,6 @@ IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/log/include
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/newlib/include
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/vfs/include
 IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/vfs/include/sys
-IDF_INCLUDES += -I $(IDF_MODIFIED_DIR)/wear_levelling/include
 
 IDF_ORIG_DIR = idf/orig
 IDF_INCLUDES += -I $(IDF_ORIG_DIR)/driver/include
@@ -21,6 +20,7 @@ IDF_INCLUDES += -I $(IDF_ORIG_DIR)/esp32/include
 IDF_INCLUDES += -I $(IDF_ORIG_DIR)/fatfs/src
 IDF_INCLUDES += -I $(IDF_ORIG_DIR)/sdmmc/include
 IDF_INCLUDES += -I $(IDF_ORIG_DIR)/spi_flash/include
+IDF_INCLUDES += -I $(IDF_ORIG_DIR)/wear_levelling/include
 IDF_INCLUDES += -I $(IDF_ORIG_DIR)/wear_levelling/private_include
 
 ifdef OS
