@@ -3,7 +3,7 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := mkfatfs
+PROJECT_NAME := fatfs_example
 
 include $(IDF_PATH)/make/project.mk
 

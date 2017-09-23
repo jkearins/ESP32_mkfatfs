@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Victor Mizikov. All rights reserved.
 //
 #define TCLAP_SETBASE_ZERO 1
-#define APP_VERSION "0.3.6"
+#define APP_VERSION "0.1.0"
 
 #include <iostream>
 #include <vector>
@@ -48,8 +48,6 @@ static Action s_action = ACTION_NONE;
 static std::string s_dirName;
 static std::string s_imageName;
 static int s_imageSize;
-static int s_pageSize;
-static int s_blockSize;
 
 static wl_handle_t s_wl_handle;
 static FATFS* s_fs = NULL;
@@ -558,13 +556,9 @@ void processArgs(int argc, const char** argv) {
     TCLAP::SwitchArg visualizeArg( "i", "visualize", "visualize spiffs image", false);
     TCLAP::UnlabeledValueArg<std::string> outNameArg( "image_file", "spiffs image file", true, "", "image_file"  );
     TCLAP::ValueArg<int> imageSizeArg( "s", "size", "fs image size, in bytes", false, 0x10000, "number" );
-    TCLAP::ValueArg<int> pageSizeArg( "p", "page", "fs page size, in bytes", false, 256, "number" );
-    TCLAP::ValueArg<int> blockSizeArg( "b", "block", "fs block size, in bytes", false, 4096, "number" );
     TCLAP::ValueArg<int> debugArg( "d", "debug", "Debug level. 0 means no debug output.", false, 0, "0-5" );
 
     cmd.add( imageSizeArg );
-    cmd.add( pageSizeArg );
-    cmd.add( blockSizeArg );
     cmd.add(debugArg);
     std::vector<TCLAP::Arg*> args = {&packArg, &unpackArg, &listArg, &visualizeArg};
     cmd.xorAdd( args );
@@ -590,8 +584,6 @@ void processArgs(int argc, const char** argv) {
 
     s_imageName = outNameArg.getValue();
     s_imageSize = imageSizeArg.getValue();
-    s_pageSize  = pageSizeArg.getValue();
-    s_blockSize = blockSizeArg.getValue();
 
 
 }

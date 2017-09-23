@@ -25,15 +25,8 @@ Where:
    -i,  --visualize
      (OR required)  visualize fatfs image
 
-
    -d <0-5>,  --debug <0-5>
      Debug level. 0 means no debug output.
-
-   -b <number>,  --block <number>
-     fs block size, in bytes
-
-   -p <number>,  --page <number>
-     fs page size, in bytes
 
    -s <number>,  --size <number>
      fs image size, in bytes

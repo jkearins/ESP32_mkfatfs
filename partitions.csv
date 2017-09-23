@@ -14,10 +14,8 @@ storage,  data, fat,     0x110000, 0x100000,
 # 1M = 0x100000
 # 2M = 0x200000
 # Partition 'sstorage' is created for this example, set the same parameters in menuconfig->'ESP32 FATFS Configuration':
-#   FATFS Base address (in hex): 110000 (!!! without 0x at the beginning)
+#   FATFS Base address (in hex): 110000 (without 0x at the beginning!)
 #   FATFS size in bytes: 1048576
-#   FATFS logical block size: 4096
-#   FATFS logical page size: 256
 
 
 
