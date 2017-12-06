@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Victor Mizikov. All rights reserved.
 //
 #define TCLAP_SETBASE_ZERO 1
-#define APP_VERSION "0.1.0"
+#define APP_VERSION "0.2.0"
 
 #include <iostream>
 #include <vector>

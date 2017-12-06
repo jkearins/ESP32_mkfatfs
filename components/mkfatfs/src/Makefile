@@ -94,6 +94,8 @@ OBJ             := main.o \
 		   $(IDF_ORIG_DIR)/fatfs/src/option/syscall.o \
 		   $(IDF_ORIG_DIR)/wear_levelling/crc32.o \
 		   $(IDF_ORIG_DIR)/wear_levelling/WL_Flash.o \
+		   $(IDF_ORIG_DIR)/wear_levelling/WL_Ext_Perf.o \
+		   $(IDF_ORIG_DIR)/wear_levelling/WL_Ext_Safe.o \
 
 				   
 VERSION ?= $(shell git describe --always)
@@ -123,6 +125,8 @@ $(TARGET):
 	$(CC) $(TARGET_CFLAGS) -c $(IDF_ORIG_DIR)/fatfs/src/option/syscall.c -o $(IDF_ORIG_DIR)/fatfs/src/option/syscall.o
 	$(CXX) $(TARGET_CXXFLAGS) -c $(IDF_ORIG_DIR)/wear_levelling/crc32.cpp -o $(IDF_ORIG_DIR)/wear_levelling/crc32.o
 	$(CXX) $(TARGET_CXXFLAGS) -c $(IDF_ORIG_DIR)/wear_levelling/WL_Flash.cpp -o $(IDF_ORIG_DIR)/wear_levelling/WL_Flash.o
+	$(CXX) $(TARGET_CXXFLAGS) -Wno-sign-compare -c $(IDF_ORIG_DIR)/wear_levelling/WL_Ext_Perf.cpp -o $(IDF_ORIG_DIR)/wear_levelling/WL_Ext_Perf.o
+	$(CXX) $(TARGET_CXXFLAGS) -Wno-sign-compare -c $(IDF_ORIG_DIR)/wear_levelling/WL_Ext_Safe.cpp -o $(IDF_ORIG_DIR)/wear_levelling/WL_Ext_Safe.o
 	$(CXX) $(TARGET_CFLAGS) -o $(TARGET) $(OBJ) $(TARGET_LDFLAGS)
 
 

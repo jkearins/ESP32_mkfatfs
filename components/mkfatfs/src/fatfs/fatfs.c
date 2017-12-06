@@ -11,6 +11,8 @@
 
 #include "fatfs.h"
 
+#define MY_ALLOCATION_UNIT	512	// define sector size, valid values: 512, 1024, 2048, 4096
+#define MY_CLUSTER_SIZE		(MY_ALLOCATION_UNIT * 1)	// define cluster size as sector size multiplied by 1,2,4,8
 
 static const char *TAG = "fatfs";
 
@@ -33,7 +35,8 @@ esp_err_t emulate_esp_vfs_fat_spiflash_mount(const char* base_path,
     int imageSize)
 {
     esp_err_t result = ESP_OK;
-    const size_t workbuf_size = 4096;
+    const size_t allocation_unit = MY_ALLOCATION_UNIT;
+    const size_t cluster_size = MY_CLUSTER_SIZE; //4096; reducing cluster size 4096->512
     void *workbuf = NULL;
 
     *out_fs = NULL;	//MVA
@@ -83,9 +86,9 @@ esp_err_t emulate_esp_vfs_fat_spiflash_mount(const char* base_path,
             result = ESP_FAIL;
             goto fail;
         }
-        workbuf = malloc(workbuf_size);
-        ESP_LOGI(TAG, "Formatting FATFS partition");
-        fresult = f_mkfs(drv, FM_ANY | FM_SFD, workbuf_size, workbuf, workbuf_size);
+        workbuf = malloc(cluster_size);
+        ESP_LOGI(TAG, "Formatting FATFS partition: allocation_unit=%d, cluster_size=%d", allocation_unit, cluster_size);
+        fresult = f_mkfs(drv, FM_ANY | FM_SFD, allocation_unit, workbuf, cluster_size);
         if (fresult != FR_OK) {
             result = ESP_FAIL;
             ESP_LOGE(TAG, "f_mkfs failed (%d)", fresult);
