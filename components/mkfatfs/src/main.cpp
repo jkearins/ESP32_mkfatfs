@@ -6,7 +6,7 @@
 //  Copyright (c) 2017 Victor Mizikov. All rights reserved.
 //
 #define TCLAP_SETBASE_ZERO 1
-#define APP_VERSION "0.2.0"
+#define APP_VERSION "0.3.0"
 
 #include <iostream>
 #include <vector>
@@ -208,6 +208,161 @@ int addFiles(const char* dirname, const char* subPath) {
 
     return (error) ? 1 : 0;
 }
+
+
+int checkFile(char* name, const char* path) {
+    //spiffs_metadata_t meta;
+
+    FILE* src = fopen(path, "rb");
+    if (!src) {
+        std::cerr << "error: failed to open " << path << " for reading" << std::endl;
+        return 1;
+    }
+
+
+    std::string nameInFat = BASE_PATH;
+    nameInFat += name;
+
+    const int flags = O_RDONLY;
+    int fd = emulate_esp_vfs_open(nameInFat.c_str(), flags, 0);
+    if (fd < 0) {
+        std::cerr << "error: failed to open \"" << nameInFat << "\" for reading" << std::endl;
+        return 0; //0 does not stop copying files
+    }
+
+
+    // read file size
+    fseek(src, 0, SEEK_END);
+    size_t size = ftell(src);
+    fseek(src, 0, SEEK_SET);
+
+    if (g_debugLevel > 0) {
+        std::cout << "file size: " << size << std::endl;
+    }
+
+    size_t left = size;
+    uint8_t data_byte;
+    uint8_t data_byte2;
+    while (left > 0){
+        if (1 != fread(&data_byte, 1, 1, src)) {
+            std::cerr << "fread error!" << std::endl;
+            fclose(src);
+            emulate_esp_vfs_close(fd);
+            return 1;
+        }
+
+        ssize_t res = emulate_esp_vfs_read(fd, &data_byte2, 1);
+        if (res < 0) {
+            std::cerr << "esp_vfs_read() error, offset=" << (size-left) << std::endl;
+            if (g_debugLevel > 0) {
+                std::cout << "data left: " << left << std::endl;
+            }
+            fclose(src);
+            emulate_esp_vfs_close(fd);
+            return 1;
+        }
+
+        if (data_byte != data_byte2) {
+            std::cerr << "Verification failed at offset=" << (size-left) << " src="  << data_byte << " dst=" << data_byte2 << std::endl;
+            if (g_debugLevel > 0) {
+                std::cout << "data left: " << left << std::endl;
+            }
+            fclose(src);
+            emulate_esp_vfs_close(fd);
+            return 1;
+	}
+
+        left -= 1;
+    }
+
+    emulate_esp_vfs_close(fd);
+
+    // Get the system time to file timestamps
+//    meta.atime = time(NULL);
+//    meta.ctime = meta.atime;
+//    meta.mtime = meta.atime;
+//    SPIFFS_update_meta(&s_fs, name, &meta);
+
+    fclose(src);
+
+    return 0;
+}
+
+
+
+int checkFiles(const char* dirname, const char* subPath) {
+    DIR *dir;
+    struct dirent *ent;
+    bool error = false;
+    std::string dirPath = dirname;
+    dirPath += subPath;
+
+    // Open directory
+    if ((dir = opendir (dirPath.c_str())) != NULL) {
+
+        // Read files from directory.
+        while ((ent = readdir (dir)) != NULL) {
+            // Ignore dir itself.
+            if (ent->d_name[0] == '.')				
+                continue;            	
+
+            std::string fullpath = dirPath;
+            fullpath += ent->d_name;
+            struct stat path_stat;
+            stat (fullpath.c_str(), &path_stat);
+
+            if (!S_ISREG(path_stat.st_mode)) {
+                // Check if path is a directory.
+                if (S_ISDIR(path_stat.st_mode)) {
+                    // Prepare new sub path.
+                    std::string newSubPath = subPath;
+                    newSubPath += ent->d_name;
+					
+					// WHITECAT BEGIN
+					//addDir(newSubPath.c_str());
+					// WHITECAT END
+					
+                    newSubPath += "/";
+
+                    if (checkFiles(dirname, newSubPath.c_str()) != 0)
+                    {
+                        std::cerr << "Error checking content from " << ent->d_name << "!" << std::endl;
+                    }
+
+                    continue;
+                }
+                else
+                {
+                    std::cerr << "skipping " << ent->d_name << std::endl;
+                    continue;
+                }
+            }
+
+            // Filepath with dirname as root folder.
+            std::string filepath = subPath;
+            filepath += ent->d_name;
+            std::cout << "checking: " << filepath << std::endl;
+
+            // Check file
+            if (checkFile((char*)filepath.c_str(), fullpath.c_str()) != 0) {
+                std::cerr << "error checking file!" << std::endl;
+                error = true;
+                if (g_debugLevel > 0) {
+                    std::cout << std::endl;
+                }
+                break;
+            }
+        } // end while
+        closedir (dir);
+    } else {
+        std::cerr << "warning: can't read source directory: \"" << dirPath << "\"" << std::endl;
+        return 1;
+    }
+
+    return (error) ? 1 : 0;
+}
+
+
 
 /*
 void listFiles() {
@@ -449,6 +604,9 @@ int actionPack() {
 	// WHITECAT END
 	
     ret = addFiles(s_dirName.c_str(), "/");
+    if (ret == 0) {
+      ret = checkFiles(s_dirName.c_str(), "/");
+    }
     fatfsUnmount();
 
     fwrite(&g_flashmem[0], 4, g_flashmem.size()/4, fdres);
