@@ -1,22 +1,31 @@
+#if !defined(ESP32_MKFATFS_FFCONF_H)
+#define ESP32_MKFATFS_FFCONF_H
+
 #include "sdkconfig.h"
 /*---------------------------------------------------------------------------/
 /  FatFs - FAT file system module configuration file
 /---------------------------------------------------------------------------*/
 
+#if !defined(_FFCONF)
 #define _FFCONF 68020	/* Revision ID */
+#endif
 
 /*---------------------------------------------------------------------------/
 / Function Configurations
 /---------------------------------------------------------------------------*/
 
+#if !defined(_FS_READONLY)
 #define _FS_READONLY	0
+#endif
 /* This option switches read-only configuration. (0:Read/Write or 1:Read-only)
 /  Read-only configuration removes writing API functions, f_write(), f_sync(),
 /  f_unlink(), f_mkdir(), f_chmod(), f_rename(), f_truncate(), f_getfree()
 /  and optional writing functions as well. */
 
 
+#if !defined(_FS_MINIMIZE)
 #define _FS_MINIMIZE	0
+#endif
 /* This option defines minimization level to remove some basic API functions.
 /
 /   0: All basic functions are enabled.
@@ -26,7 +35,9 @@
 /   3: f_lseek() function is removed in addition to 2. */
 
 
+#if !defined(_USE_STRFUNC)
 #define	_USE_STRFUNC	0
+#endif
 /* This option switches string functions, f_gets(), f_putc(), f_puts() and
 /  f_printf().
 /
@@ -35,34 +46,48 @@
 /  2: Enable with LF-CRLF conversion. */
 
 
+#if !defined(_USE_FIND)
 #define _USE_FIND		0
+#endif
 /* This option switches filtered directory read functions, f_findfirst() and
 /  f_findnext(). (0:Disable, 1:Enable 2:Enable with matching altname[] too) */
 
 
+#if !defined(_USE_MKFS)
 #define	_USE_MKFS		1
+#endif
 /* This option switches f_mkfs() function. (0:Disable or 1:Enable) */
 
 
+#if !defined(_USE_FASTSEEK)
 #define	_USE_FASTSEEK	0
+#endif
 /* This option switches fast seek function. (0:Disable or 1:Enable) */
 
 
+#if !defined(_USE_EXPAND)
 #define	_USE_EXPAND		0
+#endif
 /* This option switches f_expand function. (0:Disable or 1:Enable) */
 
 
+#if !defined(_USE_CHMOD)
 #define _USE_CHMOD		0
+#endif
 /* This option switches attribute manipulation functions, f_chmod() and f_utime().
 /  (0:Disable or 1:Enable) Also _FS_READONLY needs to be 0 to enable this option. */
 
 
+#if !defined(_USE_LABEL)
 #define _USE_LABEL		0
+#endif
 /* This option switches volume label functions, f_getlabel() and f_setlabel().
 /  (0:Disable or 1:Enable) */
 
 
+#if !defined(_USE_FORWARD)
 #define	_USE_FORWARD	0
+#endif
 /* This option switches f_forward() function. (0:Disable or 1:Enable) */
 
 
@@ -125,13 +150,17 @@
 /  ff_memfree(), must be added to the project. */
 
 
+#if !defined(_LFN_UNICODE)
 #define	_LFN_UNICODE	0
+#endif
 /* This option switches character encoding on the API. (0:ANSI/OEM or 1:UTF-16)
 /  To use Unicode string for the path name, enable LFN and set _LFN_UNICODE = 1.
 /  This option also affects behavior of string I/O functions. */
 
 
+#if !defined(_STRF_ENCODE)
 #define _STRF_ENCODE	3
+#endif
 /* When _LFN_UNICODE == 1, this option selects the character encoding ON THE FILE to
 /  be read/written via string I/O functions, f_gets(), f_putc(), f_puts and f_printf().
 /
@@ -143,7 +172,9 @@
 /  This option has no effect when _LFN_UNICODE == 0. */
 
 
+#if !defined(_FS_RPATH)
 #define _FS_RPATH	0
+#endif
 /* This option configures support of relative path.
 /
 /   0: Disable relative path and remove related functions.
@@ -156,7 +187,9 @@
 / Drive/Volume Configurations
 /---------------------------------------------------------------------------*/
 
+#if !defined(_VOLUMES)
 #define _VOLUMES	2
+#endif
 /* Number of volumes (logical drives) to be used. */
 
 
@@ -169,7 +202,9 @@
 /  the drive ID strings are: A-Z and 0-9. */
 
 
+#if !defined(_MULTI_PARTITION)
 #define	_MULTI_PARTITION	1
+#endif
 /* This option switches support of multi-partition on a physical drive.
 /  By default (0), each logical drive number is bound to the same physical drive
 /  number and only an FAT volume found on the physical drive will be mounted.
@@ -178,8 +213,12 @@
 /  funciton will be available. */
 
 
+#if !defined(_MIN_SS)
 #define	_MIN_SS		512
+#endif
+#if !defined(_MAX_SS)
 #define	_MAX_SS		4096
+#endif
 /* These options configure the range of sector size to be supported. (512, 1024,
 /  2048 or 4096) Always set both 512 for most systems, all type of memory cards and
 /  harddisk. But a larger value may be required for on-board flash memory and some
@@ -188,13 +227,17 @@
 /  disk_ioctl() function. */
 
 
+#if !defined(_USE_TRIM)
 #define	_USE_TRIM	0
+#endif
 /* This option switches support of ATA-TRIM. (0:Disable or 1:Enable)
 /  To enable Trim function, also CTRL_TRIM command should be implemented to the
 /  disk_ioctl() function. */
 
 
+#if !defined(_FS_NOFSINFO)
 #define _FS_NOFSINFO	0
+#endif
 /* If you need to know correct free space on the FAT32 volume, set bit 0 of this
 /  option, and f_getfree() function at first time after volume mount will force
 /  a full FAT scan. Bit 1 controls the use of last allocated cluster number.
@@ -211,23 +254,35 @@
 / System Configurations
 /---------------------------------------------------------------------------*/
 
+#if !defined(_FS_TINY)
 #define	_FS_TINY	0
+#endif
 /* This option switches tiny buffer configuration. (0:Normal or 1:Tiny)
 /  At the tiny configuration, size of file object (FIL) is reduced _MAX_SS bytes.
 /  Instead of private sector buffer eliminated from the file object, common sector
 /  buffer in the file system object (FATFS) is used for the file data transfer. */
 
 
+#if !defined(_FS_EXFAT)
 #define _FS_EXFAT	0
+#endif
 /* This option switches support of exFAT file system. (0:Disable or 1:Enable)
 /  When enable exFAT, also LFN needs to be enabled. (_USE_LFN >= 1)
 /  Note that enabling exFAT discards C89 compatibility. */
 
 
+#if !defined(_FS_NORTC)
 #define _FS_NORTC	0
+#endif
+#if !defined(_NORTC_MON)
 #define _NORTC_MON	1
+#endif
+#if !defined(_NORTC_MDAY)
 #define _NORTC_MDAY	1
+#endif
+#if !defined(_NORTC_YEAR)
 #define _NORTC_YEAR	2016
+#endif
 /* The option _FS_NORTC switches timestamp functiton. If the system does not have
 /  any RTC function or valid timestamp is not needed, set _FS_NORTC = 1 to disable
 /  the timestamp function. All objects modified by FatFs will have a fixed timestamp
@@ -238,7 +293,9 @@
 /  These options have no effect at read-only configuration (_FS_READONLY = 1). */
 
 
+#if !defined(_FS_LOCK)
 #define	_FS_LOCK	0
+#endif
 /* The option _FS_LOCK switches file lock function to control duplicated file open
 /  and illegal operation to open objects. This option must be 0 when _FS_READONLY
 /  is 1.
@@ -274,3 +331,4 @@
 #include "freertos/semphr.h"
 
 /*--- End of configuration options ---*/
+#endif
